@@ -114,6 +114,8 @@ router.post("/", async (req, res) => {
 
     // Sign the transaction
     let signedTxn = txn.signTxn(recoveredAccount.sk);
+
+    console.log({signedTxn})
     let txId = txn.txID().toString();
     console.log("Signed transaction with txID: %s", txId);
 
