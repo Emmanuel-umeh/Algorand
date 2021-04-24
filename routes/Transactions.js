@@ -56,35 +56,37 @@ const waitForConfirmation = async function (algodclient, txId, timeout) {
 };
 
 router.post("/", async (req, res) => {
-  const { price, mnemonic } = req.body;
-  /*
-    req.body will contain the lands details and all that
-
-    then when the transaction creates successfully and its sent we do our logic
-    
-    
-
-    */
-   
-    if(!price || !mnemonic){
-      return res.status(400).json({
-        msg : "Missing Parameters"
-      })
-    }
-  const algod_server = "https://testnet-algorand.api.purestake.io/ps2";
-  const algod_port = "";
-  const algod_token = {
-    "X-API-Key": "8LtYbv0XMB6wBXhJ2dJPR6LUDDXyEZTUrrT97Daa",
-  };
-
-  let algodClient = new algosdk.Algodv2(algod_token, algod_server, algod_port);
-
-  var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
-  console.log("the owner of the mnemonic ", recoveredAccount.addr);
-
-  // (async() => {
-
+ 
   try {
+
+    const { price, mnemonic } = req.body;
+    /*
+      req.body will contain the lands details and all that
+  
+      then when the transaction creates successfully and its sent we do our logic
+      
+      
+  
+      */
+     
+      if(!price || !mnemonic){
+        return res.status(400).json({
+          msg : "Missing Parameters"
+        })
+      }
+    const algod_server = "https://testnet-algorand.api.purestake.io/ps2";
+    const algod_port = "";
+    const algod_token = {
+      "X-API-Key": "8LtYbv0XMB6wBXhJ2dJPR6LUDDXyEZTUrrT97Daa",
+    };
+  
+    let algodClient = new algosdk.Algodv2(algod_token, algod_server, algod_port);
+  
+    var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
+    console.log("the owner of the mnemonic ", recoveredAccount.addr);
+  
+    // (async() => {
+  
     // check my account balance
 
     let accountInfo = await algodClient
@@ -130,6 +132,9 @@ router.post("/", async (req, res) => {
     return res.json("Transaction was successful");
   } catch (error) {
     console.log({ error });
+    return res.status(500).json({
+      msg : "Internal Error"
+    })
   }
 });
 
