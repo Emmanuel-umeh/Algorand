@@ -56,8 +56,7 @@ const waitForConfirmation = async function (algodclient, txId, timeout) {
 };
 
 router.post("/", async (req, res) => {
-
-  const {price, mnemonic} = req.body
+  const { price, mnemonic } = req.body;
   /*
     req.body will contain the lands details and all that
 
@@ -75,7 +74,7 @@ router.post("/", async (req, res) => {
 
   let algodClient = new algosdk.Algodv2(algod_token, algod_server, algod_port);
 
-    var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
+  var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
   console.log("the owner of the mnemonic ", recoveredAccount.addr);
 
   // (async() => {
@@ -99,13 +98,12 @@ router.post("/", async (req, res) => {
     const receiver =
       "GD64YIY3TWGDMCNPP553DZPPR6LDUSFQOIJVFDPPXWEG3FVOJCCDBBHU5A";
     let note = algosdk.encodeObj("Payment for Clothes");
-    
 
     let txn = algosdk.makePaymentTxnWithSuggestedParams(
       recoveredAccount.addr,
       receiver,
 
-      // 1
+      //1 Algo equals 1,000,000 microAlgos.
       price * 1000000,
       undefined,
       note,
@@ -124,19 +122,6 @@ router.post("/", async (req, res) => {
     // Submit the transaction
     await algodClient.sendRawTransaction(signedTxn).do();
 
-    // Wait for confirmation
-    // let confirmedTxn = await waitForConfirmation(algodClient, txId, 4);
-    // //Get the completed Transaction
-    // console.log(
-    //   "Transaction " +
-    //     txId +
-    //     " confirmed in round " +
-    //     confirmedTxn["confirmed-round"]
-    // );
-    // let mytxinfo = JSON.stringify(confirmedTxn.txn.txn, undefined, 2);
-    // console.log("Transaction information: %o", mytxinfo);
-    // var string = new TextDecoder().decode(confirmedTxn.txn.txn.note);
-    // console.log("Note field: ", string);
     return res.json("Transaction was successful");
   } catch (error) {
     console.log({ error });
