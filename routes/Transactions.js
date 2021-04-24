@@ -130,7 +130,6 @@ router.post("/", async (req, res) => {
     return res.json("Transaction was successful");
   } catch (error) {
     console.log({ error });
-    return res.status(400).json({msg : "Transaction failed"});
   }
 });
 
