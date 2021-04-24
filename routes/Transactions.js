@@ -129,11 +129,17 @@ router.post("/", async (req, res) => {
     console.log("Signed transaction with txID: %s", txId);
 
     // Submit the transaction
-    await algodClient.sendRawTransaction(signedTxn).do();
+   var success =  await algodClient.sendRawTransaction(signedTxn).do();
+if(success){
+  return res.json({
+    success : true
+  });
+}else{
+  return res.json({
+    success : false
+  });
+}
 
-    return res.json({
-      success : true
-    });
   } catch (error) {
     console.log({ error });
     return res.status(500).json({
