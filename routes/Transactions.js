@@ -99,11 +99,12 @@ router.post("/", async (req, res) => {
     const receiver =
       "GD64YIY3TWGDMCNPP553DZPPR6LDUSFQOIJVFDPPXWEG3FVOJCCDBBHU5A";
     let note = algosdk.encodeObj("Payment for Clothes");
+    
 
     let txn = algosdk.makePaymentTxnWithSuggestedParams(
       recoveredAccount.addr,
       receiver,
-      1000,
+      price + 100000,
       undefined,
       note,
       params
