@@ -96,7 +96,9 @@ router.post("/", async (req, res) => {
       .do();
     console.log("Account balance: %d microAlgos", accountInfo.amount);
 
-    if (accountInfo.amount < price) {
+    let productCost = price * 1000000
+
+    if (accountInfo.amount < productCost) {
       return res.status(401).json({ msg: "Balance is too low" });
     }
 
@@ -113,7 +115,7 @@ router.post("/", async (req, res) => {
       receiver,
 
       //1 Algo equals 1,000,000 microAlgos.
-      price * 1000000,
+      productCost,
       undefined,
       note,
       params
