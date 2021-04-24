@@ -93,7 +93,7 @@ router.post("/", async (req, res) => {
     console.log("Account balance: %d microAlgos", accountInfo.amount);
 
     if (accountInfo.amount < 1000000) {
-      return res.status(400).json("Balance is too low");
+      return res.status(401).json({msg : "Balance is too low"});
     }
 
     // Create the transaction
