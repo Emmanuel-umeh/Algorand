@@ -104,7 +104,9 @@ router.post("/", async (req, res) => {
     let txn = algosdk.makePaymentTxnWithSuggestedParams(
       recoveredAccount.addr,
       receiver,
-      price + 100000,
+
+      // 1
+      price * 1000000,
       undefined,
       note,
       params
