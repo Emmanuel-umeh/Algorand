@@ -74,8 +74,7 @@ router.post("/", async (req, res) => {
   };
 
   let algodClient = new algosdk.Algodv2(algod_token, algod_server, algod_port);
-  // mnemonic here will be provided from our mongo database
-  // i think we'd save the data to a centralized database then cross check with the blockchain on user usage
+
     var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
   console.log("the owner of the mnemonic ", recoveredAccount.addr);
 
