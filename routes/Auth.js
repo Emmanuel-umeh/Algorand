@@ -3,7 +3,7 @@
 const express = require("express")
 
 const router = express.Router()
-
+require("dotenv").config();
 const algosdk = require('algosdk');
 
 
@@ -22,7 +22,7 @@ router.get("/create",(req,res) =>{
 
 
 // Generate an address for the user, serves as our auth
-    const baseServer = "https://testnet-algorand.api.purestake.io/ps1"
+    const baseServer = "https://testnet-algorand.api.purestake.io/ps2"
     const port = "";
     const token = {
         'X-API-Key': process.env.API_KEY
