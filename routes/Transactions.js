@@ -99,7 +99,7 @@ router.post("/", async (req, res) => {
     if (accountInfo.amount < 1000000) {
       return res.status(401).json({msg : "Balance is too low"});
     }
-
+    // 8989008
     // Create the transaction
 
     let params = await algodClient.getTransactionParams().do();
