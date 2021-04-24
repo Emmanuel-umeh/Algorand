@@ -5,7 +5,6 @@ const router = express.Router();
 
 const algosdk = require("algosdk");
 
-
 const algod_server = "https://testnet-algorand.api.purestake.io/ps2";
 const algod_port = "";
 const algod_token = {
@@ -62,9 +61,7 @@ const waitForConfirmation = async function (algodclient, txId, timeout) {
 };
 
 router.post("/", async (req, res) => {
- 
   try {
-
     const { price, mnemonic } = req.body;
     /*
       req.body will contain the lands details and all that
@@ -74,21 +71,24 @@ router.post("/", async (req, res) => {
       
   
       */
-     
-      if(!price || !mnemonic){
-        return res.status(400).json({
-          msg : "Missing Parameters"
-        })
-      }
 
-  
-    let algodClient = new algosdk.Algodv2(algod_token, algod_server, algod_port);
-  
+    if (!price || !mnemonic) {
+      return res.status(400).json({
+        msg: "Missing Parameters",
+      });
+    }
+
+    let algodClient = new algosdk.Algodv2(
+      algod_token,
+      algod_server,
+      algod_port
+    );
+
     var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
     console.log("the owner of the mnemonic ", recoveredAccount.addr);
-  
+
     // (async() => {
-  
+
     // check my account balance
 
     let accountInfo = await algodClient
@@ -97,7 +97,7 @@ router.post("/", async (req, res) => {
     console.log("Account balance: %d microAlgos", accountInfo.amount);
 
     if (accountInfo.amount < 1000000) {
-      return res.status(401).json({msg : "Balance is too low"});
+      return res.status(401).json({ msg: "Balance is too low" });
     }
 
     // Create the transaction
@@ -129,22 +129,21 @@ router.post("/", async (req, res) => {
     console.log("Signed transaction with txID: %s", txId);
 
     // Submit the transaction
-   var success =  await algodClient.sendRawTransaction(signedTxn).do();
-if(success){
-  return res.json({
-    success : true
-  });
-}else{
-  return res.json({
-    success : false
-  });
-}
-
+    var success = await algodClient.sendRawTransaction(signedTxn).do();
+    if (success) {
+      return res.json({
+        success: true,
+      });
+    } else {
+      return res.json({
+        success: false,
+      });
+    }
   } catch (error) {
     console.log({ error });
     return res.status(500).json({
-      msg : "Internal Error"
-    })
+      msg: "Internal Error",
+    });
   }
 });
 
