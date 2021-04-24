@@ -65,7 +65,12 @@ router.post("/", async (req, res) => {
     
 
     */
-
+   
+    if(!price || !mnemonic){
+      return res.status(400).json({
+        msg : "Missing Parameters"
+      })
+    }
   const algod_server = "https://testnet-algorand.api.purestake.io/ps2";
   const algod_port = "";
   const algod_token = {
@@ -125,7 +130,7 @@ router.post("/", async (req, res) => {
     return res.json("Transaction was successful");
   } catch (error) {
     console.log({ error });
-    return res.status(400).json("Transaction failed");
+    return res.status(400).json({msg : "Transaction failed"});
   }
 });
 
