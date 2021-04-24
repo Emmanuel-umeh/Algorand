@@ -56,6 +56,8 @@ const waitForConfirmation = async function (algodclient, txId, timeout) {
 };
 
 router.post("/", async (req, res) => {
+
+  const {price, mnemonic} = req.body
   /*
     req.body will contain the lands details and all that
 
@@ -74,9 +76,7 @@ router.post("/", async (req, res) => {
   let algodClient = new algosdk.Algodv2(algod_token, algod_server, algod_port);
   // mnemonic here will be provided from our mongo database
   // i think we'd save the data to a centralized database then cross check with the blockchain on user usage
-  var mnemonic =
-    "crack lunar nice ostrich panther jar fantasy pulse crane suggest tomorrow fork gentle apology pact model brief lunar assault smile impose measure gold able humble";
-  var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
+    var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
   console.log("the owner of the mnemonic ", recoveredAccount.addr);
 
   // (async() => {
