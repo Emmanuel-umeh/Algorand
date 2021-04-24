@@ -18,7 +18,7 @@ const algosdk = require('algosdk');
 //
 
 
-router.get("/",(req,res) =>{
+router.get("/create",(req,res) =>{
 
 
 // Generate an address for the user, serves as our auth
@@ -68,6 +68,52 @@ router.get("/",(req,res) =>{
     });
 
 })
+
+
+router.post("/recover",(req,res) =>{
+
+    
+    const {mnemonic} = req.body
+
+
+    if(!mnemonic){
+        return res.status(400).json({
+            msg : "Please enter your mnemonic"
+        })
+    }
+    // Recover the users address from mnemonic
+    
+    
+        var address = algosdk.mnemonicToSecretKey(mnemonic);
+        
+      
+        
+        (async () => {
+            console.log(address);
+        
+  
+    
+       
+    
+                // saving the user functionality here
+    
+                return res.json({
+    
+                    address : address.addr,
+                    mnemonic : mnemonic,
+                   
+    
+                })
+          
+    
+            // Will save the users address without the mnemonic
+            // that should be all about auth
+        })().catch(e => {
+            console.log(e);
+            return res.status(500).json("Internal error")
+        });
+    
+    })
 
 // {
 //     versions: [ 'v1', 'v2' ],
