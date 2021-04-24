@@ -5,6 +5,12 @@ const router = express.Router();
 
 const algosdk = require("algosdk");
 
+
+const algod_server = "https://testnet-algorand.api.purestake.io/ps2";
+const algod_port = "";
+const algod_token = {
+  "X-API-Key": "8LtYbv0XMB6wBXhJ2dJPR6LUDDXyEZTUrrT97Daa",
+};
 /**
  * utility function to wait on a transaction to be confirmed
  * the timeout parameter indicates how many rounds do you wish to check pending transactions for
@@ -74,11 +80,7 @@ router.post("/", async (req, res) => {
           msg : "Missing Parameters"
         })
       }
-    const algod_server = "https://testnet-algorand.api.purestake.io/ps2";
-    const algod_port = "";
-    const algod_token = {
-      "X-API-Key": "8LtYbv0XMB6wBXhJ2dJPR6LUDDXyEZTUrrT97Daa",
-    };
+
   
     let algodClient = new algosdk.Algodv2(algod_token, algod_server, algod_port);
   
