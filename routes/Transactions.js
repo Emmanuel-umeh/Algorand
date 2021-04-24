@@ -131,7 +131,9 @@ router.post("/", async (req, res) => {
     // Submit the transaction
     await algodClient.sendRawTransaction(signedTxn).do();
 
-    return res.json("Transaction was successful");
+    return res.json({
+      success : true
+    });
   } catch (error) {
     console.log({ error });
     return res.status(500).json({
