@@ -123,18 +123,18 @@ router.post("/", async (req, res) => {
     await algodClient.sendRawTransaction(signedTxn).do();
 
     // Wait for confirmation
-    let confirmedTxn = await waitForConfirmation(algodClient, txId, 4);
-    //Get the completed Transaction
-    console.log(
-      "Transaction " +
-        txId +
-        " confirmed in round " +
-        confirmedTxn["confirmed-round"]
-    );
-    let mytxinfo = JSON.stringify(confirmedTxn.txn.txn, undefined, 2);
-    console.log("Transaction information: %o", mytxinfo);
-    var string = new TextDecoder().decode(confirmedTxn.txn.txn.note);
-    console.log("Note field: ", string);
+    // let confirmedTxn = await waitForConfirmation(algodClient, txId, 4);
+    // //Get the completed Transaction
+    // console.log(
+    //   "Transaction " +
+    //     txId +
+    //     " confirmed in round " +
+    //     confirmedTxn["confirmed-round"]
+    // );
+    // let mytxinfo = JSON.stringify(confirmedTxn.txn.txn, undefined, 2);
+    // console.log("Transaction information: %o", mytxinfo);
+    // var string = new TextDecoder().decode(confirmedTxn.txn.txn.note);
+    // console.log("Note field: ", string);
     return res.json("Transaction was successful");
   } catch (error) {
     console.log({ error });
