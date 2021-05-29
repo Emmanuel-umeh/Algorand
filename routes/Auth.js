@@ -1,107 +1,83 @@
+const express = require("express");
 
-
-const express = require("express")
-
-const router = express.Router()
+const router = express.Router();
 require("dotenv").config();
-const algosdk = require('algosdk');
+const algosdk = require("algosdk");
 
 // Get Version
 //
 // https://www.purestake.com and https://developer.purestake.io
-// 
+//
 // Code borrowed and extended from https://developer.algorand.org/docs/javascript-sdk
 //
 // Example using PureStake token object, replacing the token as a string
 //
 
-router.get("/create",(req,res) =>{
+router.get("/create", (req, res) => {
+  console.log("in the other");
 
-    console.log("in the other");
-    
-    var keys = algosdk.generateAccount();
-    
-    var mnemonic = algosdk.secretKeyToMnemonic(keys.sk);
-    
-    var isValid = algosdk.isValidAddress(keys.addr);
-    
-    (async () => {
-        console.log(keys.addr);
-        console.log(mnemonic);
-    
-        console.log("is valid ? ", isValid)
+  var keys = algosdk.generateAccount();
 
-        if(isValid){
+  var mnemonic = algosdk.secretKeyToMnemonic(keys.sk);
 
-            // saving the user functionality here
+  var isValid = algosdk.isValidAddress(keys.addr);
 
-            return res.json({
+  (async () => {
+    console.log(keys.addr);
+    console.log(mnemonic);
 
-                addr : keys.addr,
-            
-                mnemonic : mnemonic,
-                isValid : isValid,
-                sk : keys.sk,
+    console.log("is valid ? ", isValid);
 
-            })
-        }else{
-            return res.json("Address is not valid")
-        }
+    if (isValid) {
+      // saving the user functionality here
 
+      return res.json({
+        addr: keys.addr,
 
-        // Will save the users address without the mnemonic
-        // that should be all about auth
-    })().catch(e => {
-        console.log(e);
+        mnemonic: mnemonic,
+        isValid: isValid,
+        sk: keys.sk,
+      });
+    } else {
+      return res.json("Address is not valid");
+    }
+
+    // Will save the users address without the mnemonic
+    // that should be all about auth
+  })().catch((e) => {
+    console.log(e);
+  });
+});
+
+router.post("/recover", (req, res) => {
+  const { mnemonic } = req.body;
+
+  if (!mnemonic) {
+    return res.status(400).json({
+      msg: "Please enter your mnemonic",
+    });
+  }
+  // Recover the users address from mnemonic
+
+  var address = algosdk.mnemonicToSecretKey(mnemonic);
+
+  (async () => {
+    console.log(address);
+
+    // saving the user functionality here
+
+    return res.json({
+      address: address.addr,
+      mnemonic: mnemonic,
     });
 
-})
-
-
-router.post("/recover",(req,res) =>{
-
-    
-    const {mnemonic} = req.body
-
-
-    if(!mnemonic){
-        return res.status(400).json({
-            msg : "Please enter your mnemonic"
-        })
-    }
-    // Recover the users address from mnemonic
-    
-    
-        var address = algosdk.mnemonicToSecretKey(mnemonic);
-        
-      
-        
-        (async () => {
-            console.log(address);
-        
-  
-    
-       
-    
-                // saving the user functionality here
-    
-                return res.json({
-    
-                    address : address.addr,
-                    mnemonic : mnemonic,
-                   
-    
-                })
-          
-    
-            // Will save the users address without the mnemonic
-            // that should be all about auth
-        })().catch(e => {
-            console.log(e);
-            return res.status(500).json("Internal error")
-        });
-    
-    })
+    // Will save the users address without the mnemonic
+    // that should be all about auth
+  })().catch((e) => {
+    console.log(e);
+    return res.status(500).json("Internal error");
+  });
+});
 
 // {
 //     versions: [ 'v1', 'v2' ],
@@ -117,6 +93,4 @@ router.post("/recover",(req,res) =>{
 //     }
 //   }
 
-
-
-module.exports = router
+module.exports = router;
