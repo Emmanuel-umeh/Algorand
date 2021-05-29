@@ -6,8 +6,6 @@ const router = express.Router()
 require("dotenv").config();
 const algosdk = require('algosdk');
 
-
-
 // Get Version
 //
 // https://www.purestake.com and https://developer.purestake.io
@@ -16,7 +14,6 @@ const algosdk = require('algosdk');
 //
 // Example using PureStake token object, replacing the token as a string
 //
-
 
 router.get("/create",(req,res) =>{
 
